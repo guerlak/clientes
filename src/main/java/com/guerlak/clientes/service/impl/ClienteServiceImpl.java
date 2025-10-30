@@ -2,23 +2,24 @@ package com.guerlak.clientes.service.impl;
 
 import com.guerlak.clientes.entity.Cliente;
 import com.guerlak.clientes.service.ClienteService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente getClienteById(Long id) {
-
-        for(Cliente cliente: clientes){
-            if(cliente.getId().equals(id)){
-                return cliente;
-            }
-        }
-        return null;
+        //persistir no banco
+        System.out.println("id que sera deletado " + id);
+        return new Cliente();
     }
 
     @Override
     public Cliente createCliente(Cliente cliente) {
-        clientes.add(cliente);
+        //persistir no banco
+        System.out.println(cliente);
+        return cliente;
     }
 
     @Override
@@ -28,13 +29,14 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente updateCliente(Cliente cliente) {
-        return null;
+        //persistir no banco
+        System.out.println(cliente);
+        return cliente;
     }
 
     @Override
-    public boolean deleteCliente(Long id, List<Cliente> clientes) {
-        int index = clientes.indexOf(getClienteById(id));
-        clientes.remove(index);
-        return true;
+    public void deleteCliente(Long id) {
+        //persistir no banco
+        System.out.println("id que sera deletado " + id);
     }
 }

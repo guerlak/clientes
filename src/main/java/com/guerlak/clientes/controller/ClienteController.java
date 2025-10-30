@@ -14,24 +14,34 @@ import java.util.List;
 @RequestMapping("/clientes")
 @CrossOrigin("*")
 public class ClienteController {
-ClienteService clienteService;
+
+    ClienteService clienteService;
+
     ClienteController (ClienteService clienteService){
         this.clienteService = clienteService;
     }
 
-    List<Cliente> clientes = new ArrayList<>();
-
-    public void addCliente(Cliente cliente){
-        clientes.add(cliente);
+    @PostMapping
+    public ClienteDto saveCliente(@RequestBody ClienteDto clienteDto){
+        return new ClienteDto(clienteService.createCliente(new Cliente(clienteDto)));
     }
 
-    public List<Cliente> getClientes() {
-        return clientes;
+    @DeleteMapping("/{id}")
+    public void deleteCliente(@PathVariable Long id){
+        clienteService.deleteCliente(id);
     }
 
     @GetMapping
-    public List<Cliente> welcome(){
-         return getClientes();
+    public List<ClienteDto> getAllCliente(){
+         return clienteService.getAllCliente()
+                 .stream()
+                 .map(ClienteDto::new)
+                 .toList();
+    }
+
+    @GetMapping("/{id}")
+    public ClienteDto getByClienteId(@PathVariable Long id){
+        return new ClienteDto(clienteService.getClienteById(id));
     }
 
     @PostMapping("/um")
@@ -40,29 +50,9 @@ ClienteService clienteService;
         return cliente;
     }
 
-    //um metodo saveClienteDois recebe cliente dto um sout cliente id e o nome no sout retorna um clientedto
-
-    @PostMapping
-    public ClienteDto saveCliente(@RequestBody ClienteDto clienteDto){
-       Cliente cliente = new Cliente(clienteDto.getId(), clienteDto.getName());
-        addCliente(cliente);
-        return clienteDto;
-    }
-
     @PutMapping("/{id}")
-    public ClienteDto updateCliente(@RequestBody ClienteDto clienteDto){
-        Cliente newCliente = new Cliente(clienteDto.getId(), clienteDto.getName());
-        int index = clientes.indexOf(getClienteById(clienteDto.getId()));
-        System.out.println(index);
-        clientes.set(index, newCliente);
-        return clienteDto;
+    public ClienteDto updateCliente(@PathVariable Long id, @RequestBody ClienteDto clienteDto){
+        clienteDto.setId(id);
+        return new ClienteDto(clienteService.updateCliente(new Cliente(clienteDto)));
     }
-
-    @DeleteMapping("/{id}")
-    public String deleteClient(@PathVariable Long id){
-        int index = clientes.indexOf(getClienteById(id));
-        clientes.remove(index);
-        return "OK";
-    }
-
 }

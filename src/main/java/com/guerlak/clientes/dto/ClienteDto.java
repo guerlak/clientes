@@ -1,5 +1,7 @@
 package com.guerlak.clientes.dto;
 
+import com.guerlak.clientes.entity.Cliente;
+
 public class ClienteDto {
     private Long id;
     private String name;
@@ -10,6 +12,11 @@ public class ClienteDto {
     public ClienteDto(String name, Long id){
         this.name = name;
         this.id = id;
+    }
+
+    public ClienteDto(Cliente cliente){
+        this.id = cliente.getId();
+        this.name = cliente.getName();
     }
 
     public Long getId() {

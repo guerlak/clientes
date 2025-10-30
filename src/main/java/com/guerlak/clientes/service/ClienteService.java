@@ -7,7 +7,7 @@ import java.util.List;
 public interface ClienteService {
 
     //getClienteById
-    Cliente getClienteById(Long id, List<Cliente> clientes);
+    Cliente getClienteById(Long id);
 
     Cliente createCliente(Cliente cliente);
 
@@ -15,6 +15,6 @@ public interface ClienteService {
 
     Cliente updateCliente(Cliente cliente);
 
-    boolean deleteCliente(Long id, List<Cliente> clientes);
+    void deleteCliente(Long id);
 }
 
